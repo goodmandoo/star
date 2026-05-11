@@ -1,157 +1,48 @@
 <!DOCTYPE html>
+
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>오늘의 별자리 운세 ✨</title>
+    
+    <link rel="icon" href="https://fav.farm/✨">
+
     <style>
-        /* [CSS] 기존 디자인에 레이아웃만 조금 다듬었습니다 */
+        /* [<style>] : [인테리어 설계도] - 뼈대에 색을 입히고 예쁘게 꾸미는 CSS 공간. */
+        
         body {
-            background-color: #0b0e14;
-            color: white;
+            background-color: #0b0e14; /* 배경색: 밤하늘색 */
+            color: white; /* 글자색: 흰색 */
             font-family: 'Arial', sans-serif;
+            
+            /* [중앙 정렬] 요소들을 화면 정가운데에 배치 */
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 100vh;
+            min-height: 100vh; /* 화면 높이를 100% 다 사용 */
             margin: 0;
-            overflow: hidden;
+            padding: 20px;
+            box-sizing: border-box; /* 패딩이 박스 크기를 키우지 않게 설정 */
         }
 
         .container {
+            /* [<div>] : [투명 박스] - 내용물들을 하나로 묶어주는 상자 구역. */
+            width: 100%;
+            max-width: 400px; /* PC에서는 최대 400px까지만 커짐 */
             text-align: center;
-            background: rgba(255, 255, 255, 0.05);
-            padding: 40px;
-            border-radius: 20px;
-            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.05); /* 5% 투명한 흰색 배경 */
+            padding: 30px;
+            border-radius: 20px; /* 모서리 둥글게 */
+            backdrop-filter: blur(10px); /* [유리 효과] 배경을 흐릿하게 처리 */
             border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5); /* 입체감 있는 그림자 */
         }
 
-        input, select {
-            padding: 12px;
-            margin: 10px;
-            border-radius: 8px;
-            border: none;
-            outline: none;
-            font-size: 16px;
-        }
-
-        button {
-            padding: 12px 30px;
-            background: linear-gradient(45deg, #6a11cb, #2575fc);
-            color: white;
-            border: none;
-            border-radius: 25px;
-            cursor: pointer;
-            font-size: 18px;
-            transition: 0.3s;
-            margin-top: 10px;
-        }
-
-        button:hover {
-            transform: scale(1.1);
-            box-shadow: 0 0 20px rgba(37, 117, 252, 0.6);
-        }
-
-        #result {
-            margin-top: 25px;
-            font-size: 20px;
-            line-height: 1.6;
-            animation: fadeIn 1s ease-in;
-        }
-
-        #dateDisplay {
-            font-size: 14px;
-            color: #aaa;
-            margin-bottom: 20px;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-    </style>
-</head>
-<body>
-
-    <div class="container">
-        <div id="dateDisplay"></div> <h1>🌟 별자리 운세</h1>
-        
-        <input type="text" id="nameInput" placeholder="이름을 입력하세요">
-        <select id="zodiacSelect">
-            <option value="물병자리">물병자리</option>
-            <option value="물고기자리">물고기자리</option>
-            <option value="양자리">양자리</option>
-            <option value="황소자리">황소자리</option>
-            <option value="쌍둥이자리">쌍둥이자리</option>
-            <option value="게자리">게자리</option>
-            <option value="사자자리">사자자리</option>
-            <option value="처녀자리">처녀자리</option>
-            <option value="천칭자리">천칭자리</option>
-            <option value="전갈자리">전갈자리</option>
-            <option value="사수자리">사수자리</option>
-            <option value="염소자리">염소자리</option>
-        </select>
-        <br>
-        <button onclick="getFortune()">오늘의 운세 보기</button>
-
-        <div id="result"></div>
-    </div>
-
-    <script>
-        // 1. 페이지 로드 시 날짜 표시 및 저장된 이름 불러오기
-        window.onload = function() {
-            const today = new Date();
-            const dateStr = `${today.getFullYear()}년 ${today.getMonth() + 1}월 ${today.getDate()}일`;
-            document.getElementById('dateDisplay').innerText = dateStr;
-
-            const savedName = localStorage.getItem('starUserName');
-            if (savedName) {
-                document.getElementById('nameInput').value = savedName;
-            }
-        };
-
-        function getFortune() {
-            const name = document.getElementById('nameInput').value.trim();
-            const zodiac = document.getElementById('zodiacSelect').value;
-            const resultDiv = document.getElementById('result');
-
-            // 2. 입력 검증 (Validation)
-            if (name === "") {
-                alert("이름을 입력해주세요! ✨");
-                return;
-            }
-
-            // 3. 이름 저장 (LocalStorage)
-            localStorage.setItem('starUserName', name);
-
-            // 4. 확장된 데이터 (운세 & 행운의 아이템)
-            const fortunes = [
-                "생각지 못한 곳에서 행운이 찾아옵니다.",
-                "오늘은 대담한 선택이 성공을 부릅니다.",
-                "주변 사람과의 소통이 큰 도움을 줄 거예요.",
-                "조금 천천히 가도 괜찮습니다. 평온한 하루입니다.",
-                "열정적인 당신의 모습이 빛나는 날입니다."
-            ];
-            
-            const luckyItems = ["따뜻한 차", "파란색 액세서리", "오래된 책", "새로운 음악", "이어폰"];
-            
-            const randomFortune = fortunes[Math.floor(Math.random() * fortunes.length)];
-            const randomItem = luckyItems[Math.floor(Math.random() * luckyItems.length)];
-            const randomNumber = Math.floor(Math.random() * 10) + 1;
-
-            // 5. 결과 출력
-            resultDiv.innerHTML = `
-                <strong>${name}</strong> 님의 <strong>${zodiac}</strong> 운세<br>
-                <p>"${randomFortune}"</p>
-                <div style="font-size: 16px; color: #ffd700;">
-                    🍀 행운의 아이템: ${randomItem}<br>
-                    🔢 행운의 숫자: ${randomNumber}
-                </div>
-            `;
-        }
-    </script>
-</body>
-</html>
+        /* [미디어 쿼리] : [모바일 최적화 전용] - 폰(너비 600px 이하)에서만 발동하는 규칙 */
+        @media (max-width: 600px) {
+            .container { padding: 20px;
