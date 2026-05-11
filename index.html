@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>럭키 스타: 프리미엄 별자리 가이드</title>
+    <style>
+        /* [디자인] 세련된 다크/화이트 혼합 레이아웃 */
+        body {
+            margin: 0; min-height: 100vh; display: flex; align-items: center; justify-content: center;
+            font-family: 'Apple SD Gothic Neo', sans-serif; transition: all 0.6s ease;
+            background-color: #f8f9fa; color: #333;
+        }
+
+        /* [애니메이션 필름 정의] */
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.03); } 100% { transform: scale(1); } }
+
+        .app-card {
+            background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1); text-align: center;
+            width: 90%; max-width: 400px; animation: fadeIn 0.8s ease-out;
+        }
+
+        h1 { font-size: 24px; margin-bottom: 8px; color: #1a1a1a; }
+        p { color: #666; font-size: 14px; margin-bottom: 25px; }
+
+        input {
+            width: 100%; padding: 14px; margin-bottom: 15px; border: 1px solid #eee;
+            border-radius: 15px; font-size: 16px; box-sizing: border-box; outline: none; transition: 0.3s;
+        }
+        input:focus { border-color: #FFD700; box-shadow: 0 0 8px rgba(255,215,0,0.2); }
+
+        button {
+            width: 100%; padding: 16px; background: #333; color: white; border: none;
+            border-radius: 15px; font-size: 18px; font-weight: bold; cursor: pointer;
+            animation: pulse 2s infinite; transition: 0.3s;
+        }
+        button:hover { background: #000; transform: translateY(-2px); animation: none; }
+
+        /* [결과 카드 스타일] */
+        #result-card {
+            display: none; margin-top: 30px; padding: 30px; border-radius: 20px;
+            background: white; box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+            animation: fadeIn 0.6s forwards;
+        }
+        .theme-dark { color: white !important; }
+        hr { border: 0; height: 1px; background: #eee; margin: 20px 0; }
+    </style>
+</head>
+<body>
+
+<div class="app-card">
+    <h1>럭키 스타 🔮</h1>
+    <p>오늘 당신을 기다리는 행운을 확인하세요.</p>
+    
+    <input type="text" id="nameInput" placeholder="이름을 입력하세요">
+    <input type="date" id="dateInput">
+    
+    <button id="btn">결과 확인하기</button>
+
+    <div id="result-card"></div>
+</div>
+
+<script>
+    document.getElementById('btn').onclick = function() {
+        const name = document.getElementById('nameInput').value;
+        const date = document.getElementById('dateInput').value;
+
+        // [방어막] 입력값 검증
+        if (!name.trim() || !date) {
+            alert("이름과 생일을 정확히 알려주세요!");
+            return;
+        }
+
+        const month = Number(date.split("-")[1]);
+        const day = Number(date.split("-")[2]);
+        let star = ""; let color = "#ffffff"; let isDark = false;
+
+        // [핵심 로직] 12별자리 및 컬러 테마
+        if((month==3&&day>=21)||(month==4&&day<=19)){ star="양자리"; color="#e74c3c"; isDark=true; }
+        else if((month==4&&day>=20)||(month==5&&day<=20)){ star="황소자리"; color="#2ecc71"; isDark=true; }
+        else if((month==5&&day>=21)||(month==6&&day<=21)){ star="쌍둥이자리"; color="#f1c40f"; }
+        else if((month==6&&day>=22)||(month==7&&day<=22)){ star="게자리"; color="#3498db"; isDark=true; }
+        else if((month==7&&day>=23)||(month==8&&day<=22)){ star="사자자리"; color="#e67e22"; isDark=true; }
+        else if((month==8&&day>=23)||(month==9&&day<=22)){ star="처녀자리"; color="#ecf0f1"; }
+        else if((month==9&&day>=23)||(month==10&&day<=22)){ star="천칭자리"; color="#fd79a8"; }
+        else if((month==10&&day>=23)||(month==11&&day<=22)){ star="전갈자리"; color="#8e44ad"; isDark=true; }
+        else if((month==11&&day>=23)||(month==12&&day<=24)){ star="사수자리"; color="#2980b9"; isDark=true; }
+        else if((month==12&&day>=25)||(month==1&&day<=19)){ star="염소자리"; color="#2c3e50"; isDark=true; }
+        else if((month==1&&day>=20)||(month==2&&day<=18)){ star="물병자리"; color="#00d2d3"; }
+        else if((month==2&&day>=19)||(month==3&&day<=20)){ star="물고기자리"; color="#55efc4"; }
+
+        // 테마 적용
+        document.body.style.backgroundColor = color;
+        if(isDark) document.body.classList.add('theme-dark');
+        else document.body.classList.remove('theme-dark');
+
+        // 랜덤 운세
+        const lucks = ["금전운이 폭발하는 날! 💰", "기분 좋은 소식이 들려와요. 😊", "정면돌파가 답입니다. 🔥", "오늘은 휴식이 보약입니다. 🛌", "멋진 인연을 만날 예감! 🤝"];
+        const myLuck = lucks[Math.floor(Math.random() * lucks.length)];
+
+        // 화면 출력 및 스크롤
+        const res = document.getElementById('result-card');
+        res.style.display = "block";
+        res.innerHTML = `<h3>${name}님의 결과</h3><p>당신은 <strong>${star}</strong> 성좌의 기운을 타고났군요.</p><hr><p>🔮 <strong>오늘의 운세</strong><br>${myLuck}</p>`;
+        
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    };
+</script>
+</body>
+</html>
